@@ -35,9 +35,19 @@ const usersRoutes = require('./routes/users');
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
 // Note: Endpoints that return data (eg. JSON) usually start with `/api`
+app.use('/api/listings', listingsApiRoutes);
+app.use('/listings', listingsRoutes);
+
+app.use('/api/favourites', favouritesApiRoutes);
+app.use('/favourites', favouritesRoutes);
+
+app.use('/api/messages', messagesApiRoutes);
+app.use('/messages', messagesRoutes);
+
 app.use('/api/users', userApiRoutes);
-app.use('/api/widgets', widgetApiRoutes);
 app.use('/users', usersRoutes);
+
+app.use('/api/widgets', widgetApiRoutes);
 // Note: mount other resources here, using the same pattern above
 
 // Home page
