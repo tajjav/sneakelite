@@ -5,6 +5,7 @@ require('dotenv').config();
 const sassMiddleware = require('./lib/sass-middleware');
 const express = require('express');
 const morgan = require('morgan');
+const cookieSession = require('cookie-session');
 
 const PORT = process.env.PORT || 8080;
 const app = express();
@@ -32,11 +33,14 @@ const userApiRoutes = require('./routes/users-api');
 const widgetApiRoutes = require('./routes/widgets-api');
 const usersRoutes = require('./routes/users');
 const listingsApiRoutes = require('./routes/listings-api');
-const listingsRoutes = require('./routes/listings');
+// const listingsRoutes = require('./routes/listings');
 const favouritesApiRoutes = require('./routes/favourites-api');
-const favouritesRoutes = require('./routes/favourites');
-const messagesApiRoutes = require('./routes/messages-api');
+// const favouritesRoutes = require('./routes/favourites');
+// const messagesApiRoutes = require('./routes/messages-api');
 const messagesRoutes = require('./routes/messages');
+const filteringRoutes = require('./routes/search');
+const soldRoutes = require('./routes/sold');
+
 
 
 
