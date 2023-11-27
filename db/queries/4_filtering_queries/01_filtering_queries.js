@@ -1,4 +1,5 @@
-const db = require('../connection');
+const db = require('../../connection');
+
 const retrieveFilteredListings = function(options) {
   const sqlParams = [];
   let queryString = `SELECT * FROM shoe_listings WHERE 1 = 1 AND is_sold = FALSE AND is_deleted = FALSE`;

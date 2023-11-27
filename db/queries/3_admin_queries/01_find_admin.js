@@ -1,4 +1,5 @@
-const db = require('../connection');
+const db = require('../../connection');
+
 const findAdmin = (id) => {
   return db
   .query(`SELECT * from users WHERE id = $1;`, [id])
