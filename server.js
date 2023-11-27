@@ -9,7 +9,11 @@ const cookieSession = require('cookie-session');
 
 const PORT = process.env.PORT || 8080;
 const app = express();
-
+app.use(cookieSession({
+  name: "session",
+  keys: ["OulAla", "seEhaa", "croPtop"],
+  maxAge: 24 * 60 * 60 * 1000
+}));
 app.set('view engine', 'ejs');
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
@@ -17,6 +21,7 @@ app.set('view engine', 'ejs');
 //         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
 app.use(morgan('dev'));
 app.use(express.urlencoded({ extended: true }));
+
 app.use(
   '/styles',
   sassMiddleware({
@@ -26,6 +31,7 @@ app.use(
   })
 );
 app.use(express.static('public'));
+
 
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own
@@ -37,6 +43,9 @@ const listingsApiRoutes = require('./routes/listings-api');
 const favouritesApiRoutes = require('./routes/favourites-api');
 // const favouritesRoutes = require('./routes/favourites');
 // const messagesApiRoutes = require('./routes/messages-api');
+// const messagesRoutes = require('./routes/messages');
+const loginRoutes = require('./routes/login');
+const db = require('./db/connection');
 const messagesRoutes = require('./routes/messages');
 const filteringRoutes = require('./routes/search');
 const soldRoutes = require('./routes/sold');
@@ -60,8 +69,11 @@ app.get('/item-details', (req, res) => {
 // app.use('/api/messages', messagesApiRoutes);
 // app.use('/messages', messagesRoutes);
 
-// app.use('/api/users', userApiRoutes);
-// app.use('/users', usersRoutes);
+
+app.use('/api/users', userApiRoutes);
+app.use('/users', usersRoutes);
+app.use('/', loginRoutes);
+
 
 // app.use('/api/widgets', widgetApiRoutes);
 // Note: mount other resources here, using the same pattern above
@@ -71,8 +83,22 @@ app.get('/item-details', (req, res) => {
 // Separate them into separate routes files (see above).
 
 app.get('/', (req, res) => {
-  res.render('index');
+  let userName = req.session.name;
+  
+  if(!userName) {
+    res.render('index', {userName});
+  } else {
+    db.query("SELECT * FROM users WHERE name = $1", [userName])
+      .then((data) => {
+        userName = data.rows[0].name;
+        res.render("index", {userName});  
+      })
+      .catch((error) => {
+        return console.error(error);
+      });
+  }
 });
+
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
