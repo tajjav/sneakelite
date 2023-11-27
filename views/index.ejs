@@ -42,10 +42,17 @@
 
       </ul>
           <div class="header__user-actions">
-            <form action = "/login" method="POST">
-              <input type="text" name="user_id" placeholder="Enter Name">
-              <button class="button button--login">Login</button>
-            </form>
+            <% if (!userName) { %>
+              <form action = "/login" method="POST">
+                <input type="text" name="userName" placeholder="Enter Name">
+                <button type="submit" class="button button--login">Login</button>
+              </form>
+            <% } else { %>
+              <form action="/logout" method="POST">
+                <label class="menu-link">Logged in as: <%= userName %></label>
+                <button type="submit" class="button button--login">Logout</button>
+              </form>
+            <% } %>  
             <!-- <a href="/login" class="button button--login">Login/SignUp</a> -->
         </div>
         
