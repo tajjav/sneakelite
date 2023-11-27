@@ -5,6 +5,7 @@ require('dotenv').config();
 const sassMiddleware = require('./lib/sass-middleware');
 const express = require('express');
 const morgan = require('morgan');
+const session = require('express-session');
 
 const PORT = process.env.PORT || 8080;
 const app = express();
@@ -37,6 +38,7 @@ const listingsApiRoutes = require('./routes/listings-api');
 // const favouritesRoutes = require('./routes/favourites');
 // const messagesApiRoutes = require('./routes/messages-api');
 // const messagesRoutes = require('./routes/messages');
+
 
 
 

@@ -42,7 +42,11 @@
 
       </ul>
           <div class="header__user-actions">
-            <a href="/login" class="button button--login">Login/SignUp</a>
+            <form action = "/login" method="POST">
+              <input type="text" name="user_id" placeholder="Enter Name">
+              <button class="button button--login">Login</button>
+            </form>
+            <!-- <a href="/login" class="button button--login">Login/SignUp</a> -->
         </div>
         
     </nav>
