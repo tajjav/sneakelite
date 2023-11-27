@@ -40,12 +40,15 @@ const widgetApiRoutes = require('./routes/widgets-api');
 const usersRoutes = require('./routes/users');
 const listingsApiRoutes = require('./routes/listings-api');
 // const listingsRoutes = require('./routes/listings');
-// const favouritesApiRoutes = require('./routes/favourites-api');
+const favouritesApiRoutes = require('./routes/favourites-api');
 // const favouritesRoutes = require('./routes/favourites');
 // const messagesApiRoutes = require('./routes/messages-api');
 // const messagesRoutes = require('./routes/messages');
 const loginRoutes = require('./routes/login');
 const db = require('./db/connection');
+const messagesRoutes = require('./routes/messages');
+const filteringRoutes = require('./routes/search');
+const soldRoutes = require('./routes/sold');
 
 
 
@@ -56,11 +59,14 @@ const db = require('./db/connection');
 app.use('/api/listings', listingsApiRoutes);
 // app.use('/listings', listingsRoutes);
 
-// app.use('/api/favourites', favouritesApiRoutes);
+app.use('/search', filteringRoutes);
+app.use('/sold', soldRoutes);
+
+app.use('/api/favourites', favouritesApiRoutes);
 // app.use('/favourites', favouritesRoutes);
 
 // app.use('/api/messages', messagesApiRoutes);
-// app.use('/messages', messagesRoutes);
+app.use('/messages', messagesRoutes);
 
 app.use('/api/users', userApiRoutes);
 app.use('/users', usersRoutes);
