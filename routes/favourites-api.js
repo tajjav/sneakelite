@@ -9,6 +9,9 @@ router.post('/', (req, res) => {
     console.log('showListingId: ', req.body.shoeId);
     return res.json(shoeListing);
   })
+  .catch((err) => {
+    console.log('Error: ', err);
+  })
 })
 
 router.get('/', (req, res) => {
@@ -17,6 +20,9 @@ router.get('/', (req, res) => {
   .then((result) => {
     templateVars['favourites'] = result;
     res.render('favourites', templateVars);
+  })
+  .catch((err) => {
+    console.log('Error: ', err);
   })
 })
 
