@@ -44,18 +44,23 @@ const messagesRoutes = require('./routes/messages');
 // Note: Feel free to replace the example routes below with your own
 // Note: Endpoints that return data (eg. JSON) usually start with `/api`
 app.use('/api/listings', listingsApiRoutes);
-app.use('/listings', listingsRoutes);
 
-app.use('/api/favourites', favouritesApiRoutes);
-app.use('/favourites', favouritesRoutes);
+app.get('/item-details', (req, res) => {
+  res.render('itemdes');
+});
 
-app.use('/api/messages', messagesApiRoutes);
-app.use('/messages', messagesRoutes);
+//app.use('/listings', listingsRoutes);
 
-app.use('/api/users', userApiRoutes);
-app.use('/users', usersRoutes);
+//app.use('/api/favourites', favouritesApiRoutes);
+//app.use('/favourites', favouritesRoutes);
 
-app.use('/api/widgets', widgetApiRoutes);
+//app.use('/api/messages', messagesApiRoutes);
+//app.use('/messages', messagesRoutes);
+
+//app.use('/api/users', userApiRoutes);
+//app.use('/users', usersRoutes);
+
+//app.use('/api/widgets', widgetApiRoutes);
 // Note: mount other resources here, using the same pattern above
 
 // Home page
