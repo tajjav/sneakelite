@@ -49,35 +49,21 @@ const soldRoutes = require('./routes/sold');
 // Note: Endpoints that return data (eg. JSON) usually start with `/api`
 app.use('/api/listings', listingsApiRoutes);
 
-
 app.get('/item-details', (req, res) => {
   res.render('itemdes');
 });
+//app.use('/listings', listingsRoutes);
 
-
-
-
-
-
-
-
-
-// app.use('/listings', listingsRoutes);
-
-app.use('/search', filteringRoutes);
-app.use('/sold', soldRoutes);
-
-app.use('/api/favourites', favouritesApiRoutes);
+// app.use('/api/favourites', favouritesApiRoutes);
 // app.use('/favourites', favouritesRoutes);
 
 // app.use('/api/messages', messagesApiRoutes);
-app.use('/messages', messagesRoutes);
+// app.use('/messages', messagesRoutes);
 
+// app.use('/api/users', userApiRoutes);
+// app.use('/users', usersRoutes);
 
-//app.use('/api/users', userApiRoutes);
-//app.use('/users', usersRoutes);
-
-//app.use('/api/widgets', widgetApiRoutes);
+// app.use('/api/widgets', widgetApiRoutes);
 // Note: mount other resources here, using the same pattern above
 
 // Home page
