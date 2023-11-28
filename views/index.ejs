@@ -21,6 +21,7 @@
   <link rel="stylesheet" href="/styles/layout.css" />
   <link rel="stylesheet" href="/styles/products.css" />
   <link rel="stylesheet" href="/styles/nav.css" />
+  
  <!-- App JS -->
   <script src="/vendor/jquery-3.0.0.js"></script>
   <script defer src="/scripts/app.js"></script>
@@ -29,42 +30,8 @@
 </head>
 <body>
 
-
   <%- include('partials/_header') %>
 
-
-
-    <!-- Top nav bar (fixed) -->
-    <nav>
-        <span class="nav-logo">
-          <img src="images/logo.png" alt="SneakElite Logo">  
-          SneakElite
-          </span> 
-          <!-- Combined Menu -->
-        <ul class="menu-list">
-          <li class="menu-item"><a href="#home" class="menu-link">Home</a></li>
-          <li class="menu-item"><a href="#WishList" class="menu-link">  WishList</a></li>
-          <li class="menu-item"><a href="#My-Listing" class="menu-link">My Listing</a></li>
-
-      </ul>
-          <div class="header__user-actions">
-            <% if (!userName) { %>
-              <form action = "/login" method="POST">
-                <input type="text" name="userName" placeholder="Enter Name">
-                <button type="submit" class="button button--login">Login</button>
-              </form>
-            <% } else { %>
-              <form action="/logout" method="POST">
-                <label class="menu-link">Logged in as: <%= userName %></label>
-                <button type="submit" class="button button--login">Logout</button>
-              </form>
-            <% } %>  
-            <!-- <a href="/login" class="button button--login">Login/SignUp</a> -->
-        </div>
-        
-    </nav>
-   
-</header>
  <main >
   <h2>Featured</h2>
 
