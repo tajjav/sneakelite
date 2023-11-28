@@ -57,15 +57,22 @@ const soldRoutes = require('./routes/sold');
 // Note: Feel free to replace the example routes below with your own
 // Note: Endpoints that return data (eg. JSON) usually start with `/api`
 app.use('/api/listings', listingsApiRoutes);
-
+//more details button takes item detail page
 app.get('/item-details', (req, res) => {
-  res.render('itemdes');
+  let userName = req.session.name; 
+  res.render('itemdes', { userName }); 
 });
+//mylisting button takes to my listing page
 //app.use('/listings', listingsRoutes);
 app.get('/my-listings', (req, res) => {
-  res.render('mylistings');
+  let userName = req.session.name; 
+  res.render('mylistings', { userName }); 
 });
-
+//manage-listing page leads to remove/sold page
+app.get('/manage-listing', (req, res) => {
+  let userName = req.session.name; 
+  res.render('removelisting', { userName }); 
+});
 // app.use('/api/favourites', favouritesApiRoutes);
 // app.use('/favourites', favouritesRoutes);
 
@@ -84,24 +91,28 @@ app.use('/', loginRoutes);
 // Home page
 // Warning: avoid creating more routes in this file!
 // Separate them into separate routes files (see above).
-
 app.get('/', (req, res) => {
   let userName = req.session.name;
-  
-  if(!userName) {
-    res.render('index', {userName});
+
+  if (!userName) {
+    res.render('index', { userName });
   } else {
     db.query("SELECT * FROM users WHERE name = $1", [userName])
       .then((data) => {
-        userName = data.rows[0].name;
-        res.render("index", {userName});  
+        if (data.rows.length > 0) {
+          userName = data.rows[0].name;
+          res.render("index", { userName });
+        } else {
+          console.log('No user found with the name:', userName);
+          res.render("index", { userName: null });
+        }
       })
       .catch((error) => {
-        return console.error(error);
+        console.error('Database error:', error);
+        res.render("index", { userName: null });
       });
   }
 });
-
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
