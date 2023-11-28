@@ -1,25 +1,29 @@
 .item-body {
   display: flex;
-  align-items: start;
-  justify-content: center; 
-  gap: 20px; 
+  align-items: flex-start; /* Changed from 'start' to 'flex-start' */
+  justify-content: center;
+  gap: 20px;
 }
+
 .card-img {
-  width: 450px; 
-  height: auto; 
+  width: 450px;
+  height: auto;
 }
 
 .item-card {
-  flex: 1; 
-  max-width: 500px; 
+  flex: 1;
+  max-width: 500px;
 }
-@media (max-width: 600px) { 
+
+@media (max-width: 600px) {
   .item-body {
     flex-direction: column;
   }
+
+  .card-img {
+    width: 100%; 
+  }
 }
-  
-  
 
 
 .item-price {

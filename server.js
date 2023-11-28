@@ -59,15 +59,30 @@ const soldRoutes = require('./routes/sold');
 app.use('/api/listings', listingsApiRoutes);
 
 app.get('/item-details', (req, res) => {
-  res.render('itemdes');
+  let userName = req.session.name; 
+  res.render('itemdes', { userName }); 
 });
+
 //app.use('/listings', listingsRoutes);
 app.get('/my-listings', (req, res) => {
-  res.render('mylistings');
+  let userName = req.session.name; 
+  res.render('mylistings', { userName }); 
+});
+
+//My Home button take me to he Home Page
+app.get('/home-page', (req, res) => {
+  let userName = req.session.name; 
+  res.render('index', { userName }); 
 });
 
 // app.use('/api/favourites', favouritesApiRoutes);
 // app.use('/favourites', favouritesRoutes);
+//My Wishlist button takes me to My wishlist page
+app.get('/wishlist', (req, res) => {
+  let userName = req.session.name; 
+  res.render('wishlist', { userName }); 
+});
+
 
 // app.use('/api/messages', messagesApiRoutes);
 // app.use('/messages', messagesRoutes);
@@ -87,17 +102,23 @@ app.use('/', loginRoutes);
 
 app.get('/', (req, res) => {
   let userName = req.session.name;
-  
-  if(!userName) {
-    res.render('index', {userName});
+
+  if (!userName) {
+    res.render('index', { userName });
   } else {
     db.query("SELECT * FROM users WHERE name = $1", [userName])
       .then((data) => {
-        userName = data.rows[0].name;
-        res.render("index", {userName});  
+        if (data.rows.length > 0) {
+          userName = data.rows[0].name;
+          res.render("index", { userName });
+        } else {
+          console.log('No user found with the name:', userName);
+          res.render("index", { userName: null });
+        }
       })
       .catch((error) => {
-        return console.error(error);
+        console.error('Database error:', error);
+        res.render("index", { userName: null });
       });
   }
 });
