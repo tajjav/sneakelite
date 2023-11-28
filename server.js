@@ -59,6 +59,14 @@ const soldRoutes = require('./routes/sold');
 app.use('/api/listings', listingsApiRoutes);
 app.use('/listings', listingsRoutes);
 
+app.get('/item-details', (req, res) => {
+  res.render('itemdes');
+});
+//app.use('/listings', listingsRoutes);
+app.get('/my-listings', (req, res) => {
+  res.render('mylistings');
+});
+
 // app.use('/api/favourites', favouritesApiRoutes);
 // app.use('/favourites', favouritesRoutes);
 
