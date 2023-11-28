@@ -39,7 +39,7 @@ const userApiRoutes = require('./routes/users-api');
 const widgetApiRoutes = require('./routes/widgets-api');
 const usersRoutes = require('./routes/users');
 const listingsApiRoutes = require('./routes/listings-api');
-// const listingsRoutes = require('./routes/listings');
+const listingsRoutes = require('./routes/listings');
 const favouritesApiRoutes = require('./routes/favourites-api');
 // const favouritesRoutes = require('./routes/favourites');
 // const messagesApiRoutes = require('./routes/messages-api');
@@ -57,11 +57,7 @@ const soldRoutes = require('./routes/sold');
 // Note: Feel free to replace the example routes below with your own
 // Note: Endpoints that return data (eg. JSON) usually start with `/api`
 app.use('/api/listings', listingsApiRoutes);
-
-app.get('/item-details', (req, res) => {
-  res.render('itemdes');
-});
-//app.use('/listings', listingsRoutes);
+app.use('/listings', listingsRoutes);
 
 // app.use('/api/favourites', favouritesApiRoutes);
 // app.use('/favourites', favouritesRoutes);
