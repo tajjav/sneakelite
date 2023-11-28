@@ -76,16 +76,16 @@ app.get('/my-listings', (req, res) => {
 });
 
 
-//My Home button take me to he Home Page
-app.get('/home-page', (req, res) => {
-  let userName = req.session.name; 
-  res.render('index', { userName }); 
+
 
 
 //My Home button take me to he Home Page
+// My Home button takes me to the Home Page
 app.get('/home-page', (req, res) => {
-  let userName = req.session.name; 
-  res.render('index', { userName }); 
+  let userName = req.session.name;
+  res.render('index', { userName });
+});
+
 
 //manage-listing page leads to remove/sold page
 app.get('/manage-listing', (req, res) => {
