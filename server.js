@@ -63,16 +63,36 @@ app.get('/item-details', (req, res) => {
   res.render('itemdes', { userName }); 
 });
 
+
+
+
+
+//mylisting button takes to my listing page
+
 //app.use('/listings', listingsRoutes);
 app.get('/my-listings', (req, res) => {
   let userName = req.session.name; 
   res.render('mylistings', { userName }); 
 });
 
+
 //My Home button take me to he Home Page
 app.get('/home-page', (req, res) => {
   let userName = req.session.name; 
   res.render('index', { userName }); 
+
+
+//My Home button take me to he Home Page
+app.get('/home-page', (req, res) => {
+  let userName = req.session.name; 
+  res.render('index', { userName }); 
+
+//manage-listing page leads to remove/sold page
+app.get('/manage-listing', (req, res) => {
+  let userName = req.session.name; 
+  res.render('removelisting', { userName }); 
+
+
 });
 
 // app.use('/api/favourites', favouritesApiRoutes);
