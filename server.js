@@ -49,7 +49,7 @@ const db = require('./db/connection');
 const messagesRoutes = require('./routes/messages');
 const filteringRoutes = require('./routes/search');
 const soldRoutes = require('./routes/sold');
-
+const listingQueries02 = require('./db/queries/1_queries_for_listings/02_list_all_shoes');
 
 
 
@@ -67,7 +67,7 @@ app.get('/my-listings', (req, res) => {
   res.render('mylistings');
 });
 
-// app.use('/api/favourites', favouritesApiRoutes);
+app.use('/api/favourites', favouritesApiRoutes);
 // app.use('/favourites', favouritesRoutes);
 
 // app.use('/api/messages', messagesApiRoutes);
@@ -87,15 +87,24 @@ app.use('/', loginRoutes);
 // Separate them into separate routes files (see above).
 
 app.get('/', (req, res) => {
-  let userName = req.session.name;
+  let user_id = req.session.user_id;
   
-  if(!userName) {
-    res.render('index', {userName});
+  if(!user_id) {
+    res.render('index', {userName:null, items:[]});
   } else {
-    db.query("SELECT * FROM users WHERE name = $1", [userName])
+    db.query("SELECT * FROM users WHERE id = $1", [user_id])
       .then((data) => {
-        userName = data.rows[0].name;
-        res.render("index", {userName});  
+        console.log(data.rows);
+        listingQueries02.listAll()
+        .then(items => {
+      
+      
+        
+
+        const userName = data.rows[0].name;
+        console.log(userName, items);
+        res.render("index", {userName, items}); 
+      }) 
       })
       .catch((error) => {
         return console.error(error);

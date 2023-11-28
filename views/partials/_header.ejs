@@ -3,14 +3,14 @@
     <span class="nav-logo">
       <img src="images/logo.png" alt="SneakElite Logo">  
       SneakElite
-      </span> 
+    </span> 
       <!-- Combined Menu -->
     <ul class="menu-list">
       <li class="menu-item"><a href="#home" class="menu-link">Home</a></li>
       <li class="menu-item"><a href="#WishList" class="menu-link">  WishList</a></li>
       <li class="menu-item"><a href="/my-listings" class="menu-link">My Listing</a></li>
   
-  </ul>
+    </ul>
       
     <div class="header__user-actions">
       <% if (!userName) { %>
@@ -21,12 +21,9 @@
       <% } else { %>
         <form action="/logout" method="POST">
           <label class="menu-link">Logged in as: <%= userName %></label>
-          <div class="header__user-actions">
-            <a href="/login" class="button button--login">Login/SignUp</a>
-        </div>
+          <button type="submit" class="button button--login">Logout</button>
         </form>
-      <% } %>  
-      <!-- <a href="/login" class="button button--login">Login/SignUp</a> -->
-  </div>
+      <% } %>
+    </div>
 </nav>
  
