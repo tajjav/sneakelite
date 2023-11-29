@@ -3,12 +3,12 @@
 
   <head>
     <title>SneakElite - Home Page</title>
-    
+
     <!-- Meta Information -->
     <meta charset="UTF-8" >
     <meta http-equiv="X-UA-Compatible" content="IE=edge" >
     <meta name="viewport" content="width=device-width, initial-scale=1.0" >
-    
+
     <!--Font links-->
     <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@300&family=Roboto+Condensed:wght@300&display=swap" rel="stylesheet">
@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="/styles/layout.css" />
     <link rel="stylesheet" href="/styles/products.css" />
     <link rel="stylesheet" href="/styles/nav.css" />
-    
+
     <!-- App JS -->
     <script src="/vendor/jquery-3.0.0.js"></script>
     <script defer src="/scripts/app.js"></script>
@@ -34,33 +34,43 @@
     </header>
 
     <main >
+      <form id="filterForm">
+        <label for="minPrice">Min Price:</label>
+        <input type="number" id="minPrice" name="minPrice" placeholder="Min price">
+
+        <label for="maxPrice">Max Price:</label>
+        <input type="number" id="maxPrice" name="maxPrice" placeholder="Max price">
+
+        <button type="button" onclick="applyFilter()">Apply Filter</button>
+      </form>
+
       <h2>Featured</h2>
       <div class="products">
-        
+
         <% for (let item of items) { %>
           <% if (item.is_featured) { %>
           <div class="product-card">
-            <%- include('partials/_card', {item}) %> 
-  
-            
+            <%- include('partials/_card', {item}) %>
+
+
           </div>
           <% } %>
-          
-          
+
+
           <% } %>
         </div>
 
       <h2>Products</h2>
       <div class="products">
-        
+
       <% for (let item of items) { %>
         <div class="product-card">
-          <%- include('partials/_card', {item}) %> 
+          <%- include('partials/_card', {item}) %>
 
-          
+
         </div>
-        
-        
+
+
         <% } %>
       </div>
     </main>

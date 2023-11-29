@@ -11,9 +11,10 @@ const retrieveFilteredListings = function(options) {
     sqlParams.push(`%${options.size}%`);
     queryString += `AND size = $${sqlParams.length}`;
   }
-  if (options.price !=="") {
-    sqlParams.push(`%${options.price}%`);
-    queryString += `AND price = $${sqlParams.length}`;
+  if (options.min_price && options.max_price) {
+    sqlParams.push(`%${options.min_price}%`);
+    sqlParams.push(`%${options.max_price}%`);
+    queryString += `AND price >= $${sqlParams.length - 1} AND price <= $${sqlParams.length}`;
   }
   if (options.city !=="") {
     sqlParams.push(`%${options.city}%`);
