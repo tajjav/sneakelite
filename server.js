@@ -33,6 +33,9 @@ app.use(
 app.use(express.static('public'));
 
 const db = require('./db/connection');
+const listingQueries02 = require('./db/queries/1_queries_for_listings/02_list_all_shoes');
+const {showUserFavourites} = require('./db/queries/2_favourites_queries/01_favourites_queries');
+
 
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own
@@ -45,7 +48,7 @@ const loginRoutes = require('./routes/login');
 const messagesRoutes = require('./routes/messages');
 const filteringRoutes = require('./routes/search');
 const soldRoutes = require('./routes/sold');
-const listingQueries02 = require('./db/queries/1_queries_for_listings/02_list_all_shoes');
+
 
 
 
@@ -94,6 +97,37 @@ app.get('/', (req, res) => {
   }
 });
 
+
+// Wishlist button on Nav Bar takes to My wishlist page
+app.get('/wishlist', (req, res) => {
+  let user_id = req.session.user_id;
+
+  if(!user_id) {
+  //   // function showAlert() {
+  //   //   alert("Please login to access your wishlist");
+  //   // }
+  //   // showAlert();
+    listingQueries02.listAll()
+      .then(items => {
+        res.render("index", {userName:null, items}); 
+      }); 
+  } else {
+    db.query("SELECT * FROM users WHERE id = $1", [user_id])
+      .then((data) => {
+        showUserFavourites(user_id)
+          .then((items) => {
+            const userName = data.rows[0].name;
+            res.render("wishlist", {userName, items});
+          })
+      })
+      .catch((error) => {
+        console.error('Database error:', error);
+        res.render("index", { userName: null, items:[] }); // look to redirect or render?[Tauqeer]
+      });
+  }
+});
+
+
 // item-details page
 app.get('/item-details', (req, res) => {
   let userName = req.session.name;
@@ -108,29 +142,13 @@ app.get('/my-listings', (req, res) => {
 });
 
 
-// My Home button take me to he Home Page
-app.get('/home-page', (req, res) => {
-  let userName = req.session.name;
-  res.render('index', { userName });
-});
-
-// My Home button takes me to the Home Page
-app.get('/home-page', (req, res) => {
-  let userName = req.session.name;
-  res.render('index', { userName });
-});
-
 // manage-listing page leads to remove/sold page
 app.get('/manage-listing', (req, res) => {
   let userName = req.session.name;
   res.render('removelisting', { userName });
 });
 
-//My Wishlist button takes me to My wishlist page
-app.get('/wishlist', (req, res) => {
-  let userName = req.session.name;
-  res.render('wishlist', { userName });
-});
+
 
 
 // ADD ITEM BUTTON TAKES YOU TO ADD ITEM PAGE

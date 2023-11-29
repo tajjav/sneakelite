@@ -1,3 +1,4 @@
+/* added thumbnails and cover urls [Tauqeer]*/
 INSERT INTO shoe_listings(user_id, title, description, brand, is_featured, size, price, condition, is_sold, city, postal_code, thumbnail_url, cover_url, is_deleted)
 VALUES (3, 'Running Shoes', 'High-performance running shoes', 'Nike', true, 9.5, 79.99, 'New', false, 'New York', '10001', 'https://images.pexels.com/photos/19090/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=600', 'https://images.pexels.com/photos/19090/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1200', false),
 (5, 'Casual Sneakers', 'Comfortable everyday sneakers', 'Adidas', false, 8, 49.99, 'Like New', false, 'Los Angeles', '90001', 'https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=300', 'https://images.pexels.com/photos/2529148/pexels-photo-2529148.jpeg?auto=compress&cs=tinysrgb&w=600', false),
