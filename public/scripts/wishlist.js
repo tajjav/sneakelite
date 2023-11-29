@@ -1,3 +1,5 @@
+// toggle heart color and make AJAX post request to add wishlist in db 
+
 document.addEventListener('DOMContentLoaded', function() {
   var wishlistButtons = document.querySelectorAll('.wishlist-btn');
 
@@ -23,7 +25,6 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
-// store id as html property as data property.
-// javascript to grab it
+
 
 

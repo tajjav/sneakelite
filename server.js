@@ -33,6 +33,9 @@ app.use(
 app.use(express.static('public'));
 
 const db = require('./db/connection');
+const listingQueries02 = require('./db/queries/1_queries_for_listings/02_list_all_shoes');
+const {showUserFavourites} = require('./db/queries/2_favourites_queries/01_favourites_queries');
+const {listOne} = require('./db/queries/1_queries_for_listings/03_list_one_shoe');
 
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own
@@ -45,7 +48,7 @@ const loginRoutes = require('./routes/login');
 const messagesRoutes = require('./routes/messages');
 const filteringRoutes = require('./routes/search');
 const soldRoutes = require('./routes/sold');
-const listingQueries02 = require('./db/queries/1_queries_for_listings/02_list_all_shoes');
+
 
 
 
@@ -66,38 +69,82 @@ app.use('/', loginRoutes);
 ////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// END POINTS  //////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////
-// Home page
-// Warning: avoid creating more routes in this file!
-// Separate them into separate routes files (see above).
 
+// Home page
 app.get('/', (req, res) => {
   let user_id = req.session.user_id;
   
   if(!user_id) {
-    res.render('index', {userName:null, items:[]});
+    listingQueries02.listAll()
+      .then(items => {
+        res.render("index", {userName:null, items}); 
+      });
   } else {
     db.query("SELECT * FROM users WHERE id = $1", [user_id])
       .then((data) => {
-        console.log(data.rows);
         listingQueries02.listAll()
         .then(items => {
-
           const userName = data.rows[0].name;
-          console.log(userName, items);
           res.render("index", {userName, items}); 
         }) 
       })
       .catch((error) => {
         console.error('Database error:', error);
-        res.render("index", { userName: null });
+        res.render("index", { userName: null, items:[] });
       });
   }
 });
 
+
+// Wishlist page
+app.get('/wishlist', (req, res) => {
+  let user_id = req.session.user_id;
+
+  if (!user_id) {
+    listingQueries02.listAll()
+      .then(items => {
+        res.render("unauthorized", {userName:null, items}); 
+      }); 
+  } else {
+    db.query("SELECT * FROM users WHERE id = $1", [user_id])
+      .then((data) => {
+        showUserFavourites(user_id)
+          .then((items) => {
+            const userName = data.rows[0].name;
+            res.render("wishlist", {userName, items});
+          })
+      })
+      .catch((error) => {
+        console.error('Database error: ', error);
+        res.render("index", { userName: null, items:[] }); // look to redirect or render?[Tauqeer]
+      });
+  }
+});
+
+
 // item-details page
-app.get('/item-details', (req, res) => {
-  let userName = req.session.name;
-  res.render('itemdes', { userName });
+app.get('/item-details/:id', (req, res) => {
+  let user_id = req.session.user_id;
+  const { id } = req.params;
+  if (!user_id) {
+    listOne(id)
+      .then(items => {
+        res.render('itemdes', {userName:null, items});
+      });
+  } else {
+    db.query("SELECT * FROM users WHERE id = $1", [user_id])
+      .then((data) => {
+        listOne(id)
+          .then(items => {
+            const userName = data.rows[0].name;
+            res.render('itemdes', {userName, items});
+          })
+      })
+      .catch((error) => {
+        console.error("Database error: ", error);
+        res.render('index', {userName: null, items: []});
+      })
+  }
 });
 
 
@@ -108,18 +155,6 @@ app.get('/my-listings', (req, res) => {
 });
 
 
-// My Home button take me to he Home Page
-app.get('/home-page', (req, res) => {
-  let userName = req.session.name;
-  res.render('index', { userName });
-});
-
-// My Home button takes me to the Home Page
-app.get('/home-page', (req, res) => {
-  let userName = req.session.name;
-  res.render('index', { userName });
-});
-
 // manage-listing page leads to remove/sold page
 app.get('/manage-listing', (req, res) => {
   let userName = req.session.name;
@@ -127,11 +162,6 @@ app.get('/manage-listing', (req, res) => {
 });
 
 
-//My Wishlist button takes me to My wishlist page
-app.get('/wishlist', (req, res) => {
-  let userName = req.session.name;
-  res.render('wishlist', { userName });
-});
 
 
 // ADD ITEM BUTTON TAKES YOU TO ADD ITEM PAGE
@@ -139,49 +169,6 @@ app.get('/addlisting', (req, res) => {
   let userName = req.session.name;
   res.render('addlisting', { userName });
 });
-
-
-
-
-// app.use('/api/messages', messagesApiRoutes);
-// app.use('/messages', messagesRoutes);
-
-
-app.use('/api/users', userApiRoutes);
-app.use('/users', usersRoutes);
-app.use('/', loginRoutes);
-
-
-// app.use('/api/widgets', widgetApiRoutes);
-// Note: mount other resources here, using the same pattern above
-
-// Home page
-// Warning: avoid creating more routes in this file!
-// Separate them into separate routes files (see above).
-
-app.get('/', (req, res) => {
-  let userName = req.session.name;
-
-  if (!userName) {
-    res.render('index', { userName });
-  } else {
-    db.query("SELECT * FROM users WHERE name = $1", [userName])
-      .then((data) => {
-        if (data.rows.length > 0) {
-          userName = data.rows[0].name;
-          res.render("index", { userName });
-        } else {
-          console.log('No user found with the name:', userName);
-          res.render("index", { userName: null });
-        }
-      })
-      .catch((error) => {
-        console.error('Database error:', error);
-        res.render("index", { userName: null });
-      });
-  }
-});
-
 
 
 app.listen(PORT, () => {

@@ -1,58 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+  <head>
 
-  <!-- Meta Information -->
- <meta charset="UTF-8" >
- <meta http-equiv="X-UA-Compatible" content="IE=edge" >
- <meta name="viewport" content="width=device-width, initial-scale=1.0" >
- 
- <!--Font links-->
- <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
- <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@300&family=Roboto+Condensed:wght@300&display=swap" rel="stylesheet">
- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-
-    <!-- App CSS -->
-  <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" />
-  <link rel="stylesheet" href="/vendor/border-box.css" />
-  <link rel="stylesheet" href="/styles/main.css" />
-  <link rel="stylesheet" href="/styles/layout.css" />
-  <link rel="stylesheet" href="/styles/products.css" />
-  <link rel="stylesheet" href="/styles/nav.css" />
-  <link rel="stylesheet" href="/styles/itemdes.css" />
-  <link rel="stylesheet" href="/styles/wishlist.css" />
+    <!-- Meta Information -->
+  <meta charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" >
   
+  <!--Font links-->
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@300&family=Roboto+Condensed:wght@300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+      <!-- App CSS -->
+    <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" />
+    <link rel="stylesheet" href="/vendor/border-box.css" />
+    <link rel="stylesheet" href="/styles/main.css" />
+    <link rel="stylesheet" href="/styles/layout.css" />
+    <link rel="stylesheet" href="/styles/products.css" />
+    <link rel="stylesheet" href="/styles/nav.css" />
+    <link rel="stylesheet" href="/styles/itemdes.css" />
+    <link rel="stylesheet" href="/styles/wishlist.css" />
+    
+    <!-- App JS -->
+    <script src="/vendor/jquery-3.0.0.js"></script>
+    <script defer src="/scripts/app.js"></script>
+    <script defer src="/scripts/wishlist.js"></script>
 
     <title>SneakElite - My Wishlist Page</title>
- 
+  
   </head>
 
-<body>
+  <body>
+    <header>
+      <%- include('partials/_header') %>
+    </header>
+      <!-- <a href="/wishlist" class="card-link"></a> [what is the use of this [Tauqeer]]-->
 
-    <%- include('partials/_header') %>
-    <a href="/wishlist" class="card-link"></a>
-
-<main>
-</div>
-<h2>My Wishlist</h2>
-<div class="products">
-  
-<% for (let i = 0; i < 4; i++) { %>
-  <div class="product-card">
-    <%- include('partials/_wishlistcards') %> 
-
-  </div>
-  
-  
-  <% }; %>
-</div>
-</main>
-    
+    <main>
+      </div>
+        <h2>My Wishlist</h2>
+      <div class="products">
+        
+        <% for (let item of items) { %>
+          <div class="product-card">
+            <%- include('partials/_wishlistcards', {item}) %> 
+          </div>
+          
+          
+        <% } %>
+      </div>
+    </main>
+        
 
 
-    
-</body>
+      
+  </body>
 
 </html>
