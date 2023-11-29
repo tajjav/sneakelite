@@ -103,13 +103,9 @@ app.get('/wishlist', (req, res) => {
   let user_id = req.session.user_id;
 
   if(!user_id) {
-  //   // function showAlert() {
-  //   //   alert("Please login to access your wishlist");
-  //   // }
-  //   // showAlert();
     listingQueries02.listAll()
       .then(items => {
-        res.render("index", {userName:null, items}); 
+        res.render("unauthorized", {userName:null, items}); 
       }); 
   } else {
     db.query("SELECT * FROM users WHERE id = $1", [user_id])
@@ -131,6 +127,7 @@ app.get('/wishlist', (req, res) => {
 // item-details page
 app.get('/item-details', (req, res) => {
   let userName = req.session.name;
+  const { id } = req.params;
   res.render('itemdes', { userName });
 });
 
