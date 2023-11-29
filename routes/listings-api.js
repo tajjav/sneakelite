@@ -43,8 +43,8 @@ router.get('/', (req, res) => {
 
 // Read one listing    (/api/listings/:id)
 router.get('/:id', (req, res) => {
-  const { shoe_listing_id } = req.params;
-  listingQueries03.listOne(shoe_listing_id)
+  const { id } = req.params;
+  listingQueries03.listOne(id)
     .then(items => {
       res.json({ items });
     })

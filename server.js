@@ -35,7 +35,7 @@ app.use(express.static('public'));
 const db = require('./db/connection');
 const listingQueries02 = require('./db/queries/1_queries_for_listings/02_list_all_shoes');
 const {showUserFavourites} = require('./db/queries/2_favourites_queries/01_favourites_queries');
-
+const {listOne} = require('./db/queries/1_queries_for_listings/03_list_one_shoe');
 
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own
@@ -69,10 +69,8 @@ app.use('/', loginRoutes);
 ////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// END POINTS  //////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////
-// Home page
-// Warning: avoid creating more routes in this file!
-// Separate them into separate routes files (see above).
 
+// Home page
 app.get('/', (req, res) => {
   let user_id = req.session.user_id;
   
@@ -98,18 +96,14 @@ app.get('/', (req, res) => {
 });
 
 
-// Wishlist button on Nav Bar takes to My wishlist page
+// Wishlist page
 app.get('/wishlist', (req, res) => {
   let user_id = req.session.user_id;
 
-  if(!user_id) {
-  //   // function showAlert() {
-  //   //   alert("Please login to access your wishlist");
-  //   // }
-  //   // showAlert();
+  if (!user_id) {
     listingQueries02.listAll()
       .then(items => {
-        res.render("index", {userName:null, items}); 
+        res.render("unauthorized", {userName:null, items}); 
       }); 
   } else {
     db.query("SELECT * FROM users WHERE id = $1", [user_id])
@@ -121,7 +115,7 @@ app.get('/wishlist', (req, res) => {
           })
       })
       .catch((error) => {
-        console.error('Database error:', error);
+        console.error('Database error: ', error);
         res.render("index", { userName: null, items:[] }); // look to redirect or render?[Tauqeer]
       });
   }
@@ -129,9 +123,28 @@ app.get('/wishlist', (req, res) => {
 
 
 // item-details page
-app.get('/item-details', (req, res) => {
-  let userName = req.session.name;
-  res.render('itemdes', { userName });
+app.get('/item-details/:id', (req, res) => {
+  let user_id = req.session.user_id;
+  const { id } = req.params;
+  if (!user_id) {
+    listOne(id)
+      .then(items => {
+        res.render('itemdes', {userName:null, items});
+      });
+  } else {
+    db.query("SELECT * FROM users WHERE id = $1", [user_id])
+      .then((data) => {
+        listOne(id)
+          .then(items => {
+            const userName = data.rows[0].name;
+            res.render('itemdes', {userName, items});
+          })
+      })
+      .catch((error) => {
+        console.error("Database error: ", error);
+        res.render('index', {userName: null, items: []});
+      })
+  }
 });
 
 
