@@ -126,7 +126,6 @@ app.get('/manage-listing', (req, res) => {
   res.render('removelisting', { userName });
 });
 
-
 //My Wishlist button takes me to My wishlist page
 app.get('/wishlist', (req, res) => {
   let userName = req.session.name;
