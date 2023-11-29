@@ -1,5 +1,5 @@
 body {
-  display: flex;
+  display: block;
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
@@ -48,4 +48,17 @@ h1, h2{
     width: auto; 
   }
 
+// /* itemdes.css */
+
+// .add-to-cart-btn {
+ 
+//   background-color: #3498db;
+//   color: #fff;
+ 
+// }
+
+// .cancel-btn {
+//   background-color: #e74c3c;
+//   color: #fff;
+// }
 

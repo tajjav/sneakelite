@@ -25,23 +25,21 @@
   <link rel="stylesheet" href="/styles/products.css" />
   <link rel="stylesheet" href="/styles/nav.css" />
   <link rel="stylesheet" href="/styles/itemdes.css" />
-  <script defer src="/scripts/wishlist.js"></script>
-
-  <title>SneakElite - Item Details Page</title>
+  <link rel="stylesheet" href="/styles/removeitem.css" />
+<title>SneakElite - Remove Listings Page</title>
 
 </head>
 
 <body>
 
   <%- include('partials/_header') %>
-
     <main>
       <h1> Nike Air Max Plus</h1>
-
       <div class="item-body">
         <div class="card-img">
           <img src="images/nikeblackshoe.png" alt="Nike Black Shoes" class="card-img">
         </div>
+
         <div class="item-card">
           <div class="item-price">
             <h3>Price: $320.50</h3>
@@ -50,8 +48,10 @@
             <h4> Description </h4>
           </div>
           <p class="card-text">The Nike Air Max Plus III combines ultra-comfortable Tuned Air Technologywith an
-            energetic silhouette made famous by its predecessors. The III updates the look with TPU details fused to the
-            upper while paying homage to the iconic colour fade.</p>
+            energetic
+            silhouette made famous by its predecessors. The III updates the look with TPU details fused to the upper
+            while
+            paying homage to the iconic colour fade.</p>
           <ul class="item-type">
             <li>
               <span> Brand:</span> Nike
@@ -67,16 +67,16 @@
             </li>
           </ul>
 
-          <a href="/item-details" class="card-link"></a>
+          <a href="/remove-listing" class="card-link"></a>
 
 
           <div class="item-footer">
-            <button class="contactseller-btn">
-              Contact Seller
+            <button class="remove-item-btn">
+              Remove Item
             </button>
 
-            <button class="wishlist-btn">
-              <i class="fa-regular  fa-heart"></i>
+            <button class="mark-sold-btn">
+              Mark Sold
             </button>
           </div>
 
@@ -91,7 +91,3 @@
 
 
 
-
-</body>
-
-</html>
