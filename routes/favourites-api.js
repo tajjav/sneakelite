@@ -4,7 +4,8 @@ const {favouritesListing, showUserFavourites} = require('../db/queries/2_favouri
 
 //shoeId is the variable to be used in client scripts at public/scripts/app.js (can be changed later)
 router.post('/', (req, res) => {
-  favouritesListing(req.body.shoeId, req.session.user_id.id)
+  console.log(req.body);
+  favouritesListing(req.body.shoeId, req.session.user_id)
   .then((shoeListing) => {
     console.log('showListingId: ', req.body.shoeId);
     return res.json(shoeListing);

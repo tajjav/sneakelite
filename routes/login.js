@@ -1,13 +1,17 @@
 const express = require('express');
 const router = express.Router();
+const db = require("../db/connection");
 
 
   // Auth login
   router.post('/login', (req,res) => {
     const {userName} = req.body;
     console.log('userName: ', userName);
-    req.session.name = userName;
+    db.query("SELECT * FROM users WHERE name = $1", [userName])
+    .then((data) => {
+    req.session.user_id = data.rows[0].id;
     res.redirect('/');
+    })
   });
 
 
