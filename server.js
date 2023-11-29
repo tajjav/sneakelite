@@ -103,6 +103,14 @@ app.get('/wishlist', (req, res) => {
   res.render('wishlist', { userName });
 });
 
+// ADD ITEM BUTTON TAKES YOU TO ADD ITEM PAGE
+app.get('/addlisting', (req, res) => {
+  let userName = req.session.name;
+  res.render('addlisting', { userName });
+});
+
+
+
 
 // app.use('/api/messages', messagesApiRoutes);
 // app.use('/messages', messagesRoutes);
