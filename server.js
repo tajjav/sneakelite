@@ -77,23 +77,19 @@ app.get('/', (req, res) => {
     listingQueries02.listAll()
       .then(items => {
         res.render("index", {userName:null, items}); 
-      })
-    // res.render('index', {userName:null, items:[]});
+      });
   } else {
     db.query("SELECT * FROM users WHERE id = $1", [user_id])
       .then((data) => {
-        console.log(data.rows);
         listingQueries02.listAll()
         .then(items => {
-
           const userName = data.rows[0].name;
-          console.log(userName, items);
           res.render("index", {userName, items}); 
         }) 
       })
       .catch((error) => {
         console.error('Database error:', error);
-        res.render("index", { userName: null });
+        res.render("index", { userName: null, items:[] });
       });
   }
 });
