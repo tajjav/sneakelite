@@ -8,7 +8,7 @@ description TEXT,
 brand VARCHAR(50) NOT NULL,
 is_featured BOOLEAN NOT NULL DEFAULT FALSE,
 size SMALLINT NOT NULL,
-price DECIMAL NOT NULL,
+price DECIMAL NOT NULL, /* changed the data type from integer to Decimal [Tauqeer]*/
 condition VARCHAR(50),
 is_sold BOOLEAN NOT NULL DEFAULT FALSE,
 city VARCHAR(100) NOT NULL,

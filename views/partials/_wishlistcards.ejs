@@ -1,13 +1,13 @@
 <div class="card">
-  <img src="images/nikeblackshoe.png" alt="Nike Black Shoes" class="card-img">
+  <img src="<%= item.thumbnail_url %>" alt="Nike Black Shoes" class="card-img">
   <div class="card-body">
     <div class="card-title">
-      <h3 >Nike Air Max Plus</h3> 
+      <h3 ><%= item.title %></h3> 
       <button class="wishlist-btn">
       <i class="fa-solid fa-heart" style="color: crimson"></i>
       </button>
     </div>
-    <p class="card-text">The Nike Air Max Plus III combines ultra-comfortable Tuned Air Technology...</p>
+    <p class="card-text"><%= item.description %></p>
     
   </div>
   <div class="card-footer">
@@ -16,7 +16,7 @@
       <a href="#" class="card-link">Contact seller</a>
     </div>
     <div class="card-price">
-      Price: $320.50
+      Price: $<%= item.price %>
     
     </div>
   </div>
