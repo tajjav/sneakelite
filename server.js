@@ -133,6 +133,57 @@ app.get('/wishlist', (req, res) => {
   res.render('wishlist', { userName });
 });
 
+
+// ADD ITEM BUTTON TAKES YOU TO ADD ITEM PAGE
+app.get('/addlisting', (req, res) => {
+  let userName = req.session.name;
+  res.render('addlisting', { userName });
+});
+
+
+
+
+// app.use('/api/messages', messagesApiRoutes);
+// app.use('/messages', messagesRoutes);
+
+
+app.use('/api/users', userApiRoutes);
+app.use('/users', usersRoutes);
+app.use('/', loginRoutes);
+
+
+// app.use('/api/widgets', widgetApiRoutes);
+// Note: mount other resources here, using the same pattern above
+
+// Home page
+// Warning: avoid creating more routes in this file!
+// Separate them into separate routes files (see above).
+
+app.get('/', (req, res) => {
+  let userName = req.session.name;
+
+  if (!userName) {
+    res.render('index', { userName });
+  } else {
+    db.query("SELECT * FROM users WHERE name = $1", [userName])
+      .then((data) => {
+        if (data.rows.length > 0) {
+          userName = data.rows[0].name;
+          res.render("index", { userName });
+        } else {
+          console.log('No user found with the name:', userName);
+          res.render("index", { userName: null });
+        }
+      })
+      .catch((error) => {
+        console.error('Database error:', error);
+        res.render("index", { userName: null });
+      });
+  }
+});
+
+
+
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
 });
