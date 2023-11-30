@@ -252,7 +252,7 @@ app.get('/addlisting', (req, res) => {
 ///NEW ADD-listing 
 app.post('/add-listing', (req, res) => {
   const newListing = {
-    userId: req.session.user_id, 
+    user_id: req.session.user_id, 
     title: req.body.title,
     description: req.body.description,
     brand: req.body.brand,
@@ -260,23 +260,46 @@ app.post('/add-listing', (req, res) => {
     price: req.body.price,
     condition: req.body.condition,
     city: req.body.city,
-    postalCode: req.body.postalCode,
-    thumbnailUrl: req.body.thumbnailUrl,
-    coverUrl: req.body.coverUrl,
+    postal_code: req.body.postal_code,
+    thumbnail_url: req.body.thumbnail_url,
+    cover_url: req.body.cover_url,
     is_deleted: false,
     is_sold: false,
     is_featured:false
 
   };
   console.log(newListing)
+  // res.json(newListing);
+
 
   addToList(newListing)
     .then((listing) => res.redirect('/my-listings'))
     .catch(error => {
       console.error('Error adding listing:', error);
-      res.send('Error adding listing');
+      res.send(error)
+      // ('Error adding listing');
+
     });
 });
+
+
+
+
+app.get('/mymessages', (req, res) => {
+  let userName = req.session.name;
+  const user_id = req.session.user_id;
+  if (!user_id) return res.send("Unauthorized, log in first");
+  db.query(`SELECT * from messages WHERE receiver_id = $1`, [user_id])
+    .then((data) => {
+      res.render("mymessages", { messages: data.rows, userName });
+      // res.json(data.rows)
+    })
+    .catch((err) => {
+      console.log(err);
+      res.send("error getting messages");
+    });
+  });
+
 
 
 
