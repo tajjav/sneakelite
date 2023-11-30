@@ -23,9 +23,9 @@ const addToList = (single_shoe_listing) => {
     cover_url,
     is_deleted
   )
-  VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
+  VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
   `;
-  const queryParams = [
+  const queryParams = [ 
                         `${single_shoe_listing.title}`,
                         `${single_shoe_listing.description}`,
                         `${single_shoe_listing.brand}`,

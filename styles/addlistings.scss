@@ -3,6 +3,7 @@ body {
   margin: 0;
   padding: 0;
   background: #f4f4f4;
+  
 }
 
 .listing-container {
@@ -21,15 +22,17 @@ body {
   color: crimson;
 }
 
-.listing-image {
+.product-image {
   text-align: center;
   margin-bottom: 1rem;
+ 
 }
 
 .product-image {
   max-width: 100%;
   height: auto;
   border-radius: 5px;
+ 
 }
 
 .listing-form label {

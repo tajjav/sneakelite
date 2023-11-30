@@ -122,8 +122,18 @@
     }
 
     .h1 {
-      text-align: left;
+      text-align: center;
       font-weight: 800;
 
+    }
+    
+    .greyed-out {
+      opacity: 0.5;
+      
+      pointer-events: none; 
+    }
+    
+    .greyed-out img {
+      filter: grayscale(100%); 
     }
     
