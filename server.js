@@ -166,7 +166,11 @@ app.get('/my-listings', (req, res) => {
         myListings(user_id)
           .then(items => {
             const userName = data.rows[0].name;
-            res.render('mylistings', {userName, items});
+            let {alertMessage} = req.query;
+            if (!alertMessage) {
+              alertMessage = null;
+            } 
+            res.render('mylistings', {userName, items, alertMessage});
           })
       })
       .catch((error) => {
@@ -206,7 +210,7 @@ app.get('/manage-listing/:id', (req, res) => {
 
 
 
-// filter based on price
+// Filters page
 app.post('/api/filtered', (req, res) => {
   let user_id = req.session.user_id;
   const {minPrice, maxPrice} = req.body;
@@ -275,7 +279,7 @@ app.post('/add-listing', (req, res) => {
 });
 
 
-//
+
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
 });
