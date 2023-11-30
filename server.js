@@ -32,13 +32,14 @@ app.use(
 );
 app.use(express.static('public'));
 
+// db queries link
 const db = require('./db/connection');
 const listingQueries02 = require('./db/queries/1_queries_for_listings/02_list_all_shoes');
 const {showUserFavourites} = require('./db/queries/2_favourites_queries/01_favourites_queries');
 const {listOne} = require('./db/queries/1_queries_for_listings/03_list_one_shoe');
-
 const { retrieveFilteredListings } = require("./db/queries/4_filtering_queries/01_filtering_queries");
 const {myListings} = require('./db/queries/1_queries_for_listings/07_my_listings');
+const { addToList } = require('./db/queries/1_queries_for_listings/01_add_shoe_listing.js');
 
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own
@@ -205,32 +206,46 @@ app.get('/manage-listing/:id', (req, res) => {
 
 
 
+// filter based on price
+app.post('/api/filtered', (req, res) => {
+  let user_id = req.session.user_id;
+  const {minPrice, maxPrice} = req.body;
+  const filteredResults = retrieveFilteredListings({min_price: minPrice, max_price: maxPrice});
+  console.log(filteredResults);
+
+  db.query("SELECT * FROM users WHERE id = $1", [user_id])
+      .then((data) => {
+        filteredResults.then(shoe_listings => {
+                          console.log(shoe_listings);
+                          const userName = data.rows[0].name;
+                          res.render('partials/_filters', {userName, shoe_listings});
+        })
+      })
+});
 
 
 // ADD item button leads to the Add item Page
 app.get('/addlisting', (req, res) => {
-  let userName = req.session.name;
-  res.render('addlisting', { userName });
+  let user_id = req.session.user_id;
+  if (!user_id) {
+    listingQueries02.listAll()
+      .then(items => {
+        res.render("unauthorized", {userName:null, items}); 
+      });
+  } else {
+    db.query("SELECT * FROM users WHERE id = $1", [user_id])
+      .then((data) => {
+            const userName = data.rows[0].name;
+            res.render('addlisting', {userName});
+      })
+      .catch((error) => {
+        console.error("Database error: ", error);
+        res.render('index', {userName: null, items: []});
+      })
+  }
 });
-
-
-app.post('/api/filtered', (req, res) => {
-  let userName = req.session.name;
-  const {minPrice, maxPrice} = req.body;
-  const filteredResults = retrieveFilteredListings({min_price: minPrice, max_price: maxPrice});
-  console.log(filteredResults);
-  filteredResults.then(shoe_listings => {
-    console.log(shoe_listings);
-    res.render('partials/_filters', {userName, shoe_listings});
-  })
-});
-
-
 
 ///NEW ADD-listing 
-
-const { addToList } = require('./db/queries/1_queries_for_listings/01_add_shoe_listing.js');
-
 app.post('/add-listing', (req, res) => {
   const newListing = {
     userId: req.session.user_id, 
@@ -252,16 +267,12 @@ app.post('/add-listing', (req, res) => {
   console.log(newListing)
 
   addToList(newListing)
-    .then(listing => res.redirect('/my-listings'))
+    .then((listing) => res.redirect('/my-listings'))
     .catch(error => {
       console.error('Error adding listing:', error);
       res.send('Error adding listing');
     });
 });
-
-
-
-
 
 
 //
