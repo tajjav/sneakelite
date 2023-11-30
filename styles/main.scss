@@ -6,7 +6,7 @@ body {
   background-color: white;
 
 }
-  
+
 
 
 * {
@@ -34,7 +34,7 @@ button:focus {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; 
+  height: 100vh;
 }
 
 main {
@@ -45,16 +45,16 @@ h1, h2{
 }
 
   .card-body {
-    width: auto; 
+    width: auto;
   }
 
 // /* itemdes.css */
 
 // .add-to-cart-btn {
- 
+
 //   background-color: #3498db;
 //   color: #fff;
- 
+
 // }
 
 // .cancel-btn {
@@ -62,3 +62,16 @@ h1, h2{
 //   color: #fff;
 // }
 
+#filterForm {
+  margin-bottom: 2em;
+}
+
+.btn{
+box-sizing: border-box;
+color:black;
+text-align:center;
+margin-left: 1em;
+border-color: black;
+outline-style: solid;
+padding: 3.5px 3.5px 3.5px 3.5px;
+}

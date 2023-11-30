@@ -34,14 +34,15 @@
     </header>
 
     <main >
-      <form id="filterForm">
+      <form method="POST" action="/api/filtered" id="filterForm">
         <label for="minPrice">Min Price:</label>
         <input type="number" id="minPrice" name="minPrice" placeholder="Min price">
 
         <label for="maxPrice">Max Price:</label>
         <input type="number" id="maxPrice" name="maxPrice" placeholder="Max price">
 
-        <button type="button" onclick="applyFilter()">Apply Filter</button>
+        <button type="submit" class="btn">Apply Filter</button>
+
       </form>
 
       <h2>Featured</h2>

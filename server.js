@@ -36,6 +36,8 @@ const db = require('./db/connection');
 const listingQueries02 = require('./db/queries/1_queries_for_listings/02_list_all_shoes');
 const {showUserFavourites} = require('./db/queries/2_favourites_queries/01_favourites_queries');
 const {listOne} = require('./db/queries/1_queries_for_listings/03_list_one_shoe');
+const { retrieveFilteredListings } = require("./db/queries/4_filtering_queries/01_filtering_queries");
+
 
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own
@@ -61,7 +63,7 @@ app.use('/api/favourites', favouritesApiRoutes);
 app.use('/api/users', userApiRoutes);
 app.use('/users', usersRoutes);
 app.use('/', loginRoutes);
-
+app.use('/api/filtered', filteringRoutes);
 
 
 
@@ -73,11 +75,11 @@ app.use('/', loginRoutes);
 // Home page
 app.get('/', (req, res) => {
   let user_id = req.session.user_id;
-  
+
   if(!user_id) {
     listingQueries02.listAll()
       .then(items => {
-        res.render("index", {userName:null, items}); 
+        res.render("index", {userName:null, items});
       });
   } else {
     db.query("SELECT * FROM users WHERE id = $1", [user_id])
@@ -85,8 +87,8 @@ app.get('/', (req, res) => {
         listingQueries02.listAll()
         .then(items => {
           const userName = data.rows[0].name;
-          res.render("index", {userName, items}); 
-        }) 
+          res.render("index", {userName, items});
+        })
       })
       .catch((error) => {
         console.error('Database error:', error);
@@ -103,8 +105,8 @@ app.get('/wishlist', (req, res) => {
   if (!user_id) {
     listingQueries02.listAll()
       .then(items => {
-        res.render("unauthorized", {userName:null, items}); 
-      }); 
+        res.render("unauthorized", {userName:null, items});
+      });
   } else {
     db.query("SELECT * FROM users WHERE id = $1", [user_id])
       .then((data) => {
@@ -169,6 +171,18 @@ app.get('/addlisting', (req, res) => {
   let userName = req.session.name;
   res.render('addlisting', { userName });
 });
+
+app.post('/api/filtered', (req, res) => {
+  let userName = req.session.name;
+  const {minPrice, maxPrice} = req.body;
+  const filteredResults = retrieveFilteredListings({min_price: minPrice, max_price: maxPrice});
+  console.log(filteredResults);
+  filteredResults.then(shoe_listings => {
+    console.log(shoe_listings);
+    res.render('partials/_filters', {userName, shoe_listings});
+  })
+});
+
 
 
 app.listen(PORT, () => {
