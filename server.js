@@ -159,18 +159,54 @@ app.get('/my-listings', (req, res) => {
 app.get('/manage-listing', (req, res) => {
   let userName = req.session.name;
   res.render('removelisting', { userName });
-});
+  
 
 
 
-
-// ADD ITEM BUTTON TAKES YOU TO ADD ITEM PAGE
+// ADD item button leads to the Add item Page
 app.get('/addlisting', (req, res) => {
   let userName = req.session.name;
   res.render('addlisting', { userName });
 });
 
+///NEW ADD-listing 
 
+const { addToList } = require('./db/queries/1_queries_for_listings/01_add_shoe_listing.js');
+
+app.post('/add-listing', (req, res) => {
+  const newListing = {
+    userId: req.session.user_id, 
+    title: req.body.title,
+    description: req.body.description,
+    brand: req.body.brand,
+    size: req.body.size,
+    price: req.body.price,
+    condition: req.body.condition,
+    city: req.body.city,
+    postalCode: req.body.postalCode,
+    thumbnailUrl: req.body.thumbnailUrl,
+    coverUrl: req.body.coverUrl,
+    is_deleted: false,
+    is_sold: false,
+    is_featured:false
+
+  };
+  console.log(newListing)
+
+  addToList(newListing)
+    .then(listing => res.redirect('/my-listings'))
+    .catch(error => {
+      console.error('Error adding listing:', error);
+      res.send('Error adding listing');
+    });
+});
+
+
+
+
+
+
+//
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
 });
