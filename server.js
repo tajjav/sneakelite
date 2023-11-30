@@ -123,7 +123,7 @@ app.get('/wishlist', (req, res) => {
 });
 
 
-// item-details page
+// Item-details page
 app.get('/item-details/:id', (req, res) => {
   let user_id = req.session.user_id;
   const { id } = req.params;
@@ -149,7 +149,7 @@ app.get('/item-details/:id', (req, res) => {
 });
 
 
-// my listing page
+// My listing page
 app.get('/my-listings', (req, res) => {
   let user_id = req.session.user_id;
   if (!user_id) {
@@ -174,10 +174,29 @@ app.get('/my-listings', (req, res) => {
 });
 
 
-// manage-listing page leads to remove/sold page
-app.get('/manage-listing', (req, res) => {
-  let userName = req.session.name;
-  res.render('removelisting', { userName });
+// Manage-listing page leads to actions such as remove and sold
+app.get('/manage-listing/:id', (req, res) => {
+  let user_id = req.session.user_id;
+  const { id } = req.params;
+  if (!user_id) {
+    listingQueries02.listAll()
+      .then(items => {
+        res.render("unauthorized", {userName:null, items}); 
+      });
+  } else {
+    db.query("SELECT * FROM users WHERE id = $1", [user_id])
+      .then((data) => {
+        listOne(id)
+          .then(items => {
+            const userName = data.rows[0].name;
+            res.render('removelisting', {userName, items});
+          })
+      })
+      .catch((error) => {
+        console.error("Database error: ", error);
+        res.render('index', {userName: null, items: []});
+      })
+  }
 });
 
 
