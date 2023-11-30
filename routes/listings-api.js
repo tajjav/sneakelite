@@ -14,7 +14,7 @@ const listingQueries04 = require('../db/queries/1_queries_for_listings/04_update
 const listingQueries05 = require('../db/queries/1_queries_for_listings/05_delete_shoe_listing');
 
 
-// Create listing    (/api/listings/)
+// Create listing    (/api/listings)
 router.post('/', (req, res) => {
   const { newListing } = req.body;
   listingQueries01.addToList(newListing)
@@ -28,7 +28,7 @@ router.post('/', (req, res) => {
     });
 });
 
-// Read all listings      (/api/listings/)
+// Read all listings      (/api/listings)
 router.get('/', (req, res) => {
   listingQueries02.listAll()
     .then(items => {
