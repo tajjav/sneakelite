@@ -72,11 +72,14 @@ router.post('/:id', (req, res) => {
 
 // Delete listing     (/api/listings/:id/delete)
 router.post('/:id/delete', (req, res) => {
-  const {shoe_listing_id } = req.params;
-  listingQueries05.deleteListItem(shoe_listing_id)
-    .then(items => {
-      res.json({ items });
-    })
+  const { id } = req.params;
+  listingQueries05.deleteListItem(id)
+    .then(() => {
+      res.send("Listing is deleted successfully");
+      // setTimeout(() => {
+      //   res.redirect("/my-listings");
+      // },2000);                                               // inquire the issue? [Tauqeer]
+  })
     .catch(err => {
       res
         .status(500)
