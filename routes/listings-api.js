@@ -17,6 +17,23 @@ const listingQueries05 = require('../db/queries/1_queries_for_listings/05_delete
 // Create listing    (/api/listings)
 router.post('/', (req, res) => {
   const { newListing } = req.body;
+  // const newListing = {
+  //   userId: req.session.user_id, 
+  //   title: req.body.title,
+  //   description: req.body.description,
+  //   brand: req.body.brand,
+  //   size: req.body.size,
+  //   price: req.body.price,
+  //   condition: req.body.condition,
+  //   city: req.body.city,
+  //   postalCode: req.body.postalCode,
+  //   thumbnailUrl: req.body.thumbnailUrl,
+  //   coverUrl: req.body.coverUrl,
+  //   is_deleted: false,
+  //   is_sold: false,
+  //   is_featured:false
+
+  // };
   listingQueries01.addToList(newListing)
     .then(items => {
       res.json({ items });
