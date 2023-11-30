@@ -36,8 +36,9 @@ const db = require('./db/connection');
 const listingQueries02 = require('./db/queries/1_queries_for_listings/02_list_all_shoes');
 const {showUserFavourites} = require('./db/queries/2_favourites_queries/01_favourites_queries');
 const {listOne} = require('./db/queries/1_queries_for_listings/03_list_one_shoe');
-const { retrieveFilteredListings } = require("./db/queries/4_filtering_queries/01_filtering_queries");
 
+const { retrieveFilteredListings } = require("./db/queries/4_filtering_queries/01_filtering_queries");
+const {myListings} = require('./db/queries/1_queries_for_listings/07_my_listings');
 
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own
@@ -67,7 +68,7 @@ app.use('/api/filtered', filteringRoutes);
 
 
 
-// Note: mount other resources here, using the same pattern above
+
 ////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////// END POINTS  //////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////
@@ -124,7 +125,7 @@ app.get('/wishlist', (req, res) => {
 });
 
 
-// item-details page
+// Item-details page
 app.get('/item-details/:id', (req, res) => {
   let user_id = req.session.user_id;
   const { id } = req.params;
@@ -150,27 +151,68 @@ app.get('/item-details/:id', (req, res) => {
 });
 
 
-//mylisting button takes to my listing page
+// My listing page
 app.get('/my-listings', (req, res) => {
-  let userName = req.session.name;
-  res.render('mylistings', { userName });
+  let user_id = req.session.user_id;
+  if (!user_id) {
+    listingQueries02.listAll()
+      .then(items => {
+        res.render("unauthorized", {userName:null, items}); 
+      });
+  } else {
+    db.query("SELECT * FROM users WHERE id = $1", [user_id])
+      .then((data) => {
+        myListings(user_id)
+          .then(items => {
+            const userName = data.rows[0].name;
+            res.render('mylistings', {userName, items});
+          })
+      })
+      .catch((error) => {
+        console.error("Database error: ", error);
+        res.render('index', {userName: null, items: []});
+      })
+  }
 });
 
 
-// manage-listing page leads to remove/sold page
-app.get('/manage-listing', (req, res) => {
-  let userName = req.session.name;
-  res.render('removelisting', { userName });
+
+  
+// Manage-listing page leads to actions such as remove and sold
+app.get('/manage-listing/:id', (req, res) => {
+  let user_id = req.session.user_id;
+  const { id } = req.params;
+  if (!user_id) {
+    listingQueries02.listAll()
+      .then(items => {
+        res.render("unauthorized", {userName:null, items}); 
+      });
+  } else {
+    db.query("SELECT * FROM users WHERE id = $1", [user_id])
+      .then((data) => {
+        listOne(id)
+          .then(items => {
+            const userName = data.rows[0].name;
+            res.render('removelisting', {userName, items});
+          })
+      })
+      .catch((error) => {
+        console.error("Database error: ", error);
+        res.render('index', {userName: null, items: []});
+      })
+  }
 });
 
 
 
 
-// ADD ITEM BUTTON TAKES YOU TO ADD ITEM PAGE
+
+// ADD item button leads to the Add item Page
 app.get('/addlisting', (req, res) => {
   let userName = req.session.name;
   res.render('addlisting', { userName });
 });
+
 
 app.post('/api/filtered', (req, res) => {
   let userName = req.session.name;
@@ -185,6 +227,44 @@ app.post('/api/filtered', (req, res) => {
 
 
 
+///NEW ADD-listing 
+
+const { addToList } = require('./db/queries/1_queries_for_listings/01_add_shoe_listing.js');
+
+app.post('/add-listing', (req, res) => {
+  const newListing = {
+    userId: req.session.user_id, 
+    title: req.body.title,
+    description: req.body.description,
+    brand: req.body.brand,
+    size: req.body.size,
+    price: req.body.price,
+    condition: req.body.condition,
+    city: req.body.city,
+    postalCode: req.body.postalCode,
+    thumbnailUrl: req.body.thumbnailUrl,
+    coverUrl: req.body.coverUrl,
+    is_deleted: false,
+    is_sold: false,
+    is_featured:false
+
+  };
+  console.log(newListing)
+
+  addToList(newListing)
+    .then(listing => res.redirect('/my-listings'))
+    .catch(error => {
+      console.error('Error adding listing:', error);
+      res.send('Error adding listing');
+    });
+});
+
+
+
+
+
+
+//
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
 });

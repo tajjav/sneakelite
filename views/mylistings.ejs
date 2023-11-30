@@ -39,37 +39,36 @@
     <a href="/my-listings" class="card-link"></a>
 
     <main>
-      </div>
+      
+          
+        
+      
 
       <h2>My Listings</h2>
-      <div class="add-item-btn">
+
+
+      <div class="add-item-btn-container">
         <a href="/addlisting" class="add-item-btn">Add Item</a>
       </div>
-      
-      
-     
-     
-    
-
-
-
 
       <div class="products">
+        
+          
 
-
-        <% for (let i=0; i < 5; i++) { %>
+        <% for (let item of items) { %>
           <div class="product-card">
-            <%- include('partials/_mylistingscard') %>
+            <%- include('partials/_mylistingscard', {item}) %>
 
           </div>
 
 
           <% }; %>
       </div>
+    
     </main>
 
 
-
+  
 
 </body>
 

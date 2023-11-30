@@ -14,7 +14,7 @@ const listingQueries04 = require('../db/queries/1_queries_for_listings/04_update
 const listingQueries05 = require('../db/queries/1_queries_for_listings/05_delete_shoe_listing');
 
 
-// Create listing    (/api/listings/)
+// Create listing    (/api/listings)
 router.post('/', (req, res) => {
   const { newListing } = req.body;
   listingQueries01.addToList(newListing)
@@ -28,7 +28,7 @@ router.post('/', (req, res) => {
     });
 });
 
-// Read all listings      (/api/listings/)
+// Read all listings      (/api/listings)
 router.get('/', (req, res) => {
   listingQueries02.listAll()
     .then(items => {
@@ -72,11 +72,14 @@ router.post('/:id', (req, res) => {
 
 // Delete listing     (/api/listings/:id/delete)
 router.post('/:id/delete', (req, res) => {
-  const {shoe_listing_id } = req.params;
-  listingQueries05.deleteListItem(shoe_listing_id)
-    .then(items => {
-      res.json({ items });
-    })
+  const { id } = req.params;
+  listingQueries05.deleteListItem(id)
+    .then(() => {
+      res.send("Listing is deleted successfully");
+      // setTimeout(() => {
+      //   res.redirect("/my-listings");
+      // },2000);                                               // inquire the issue? [Tauqeer]
+  })
     .catch(err => {
       res
         .status(500)

@@ -41,9 +41,8 @@
         <div class="listing-container">
             <h1 class="listing-title">Add Your Listing</h1>
 
-            <div class="listing-image">
-                <img src="images/add-image- placeholder.png" alt="Your Product" class="product-image">
-            </div>
+            <label for="product-image"></label>
+                <textarea id="product-image" name="product-image" placeholder="Place image here"></textarea>
 
             <form class="listing-form" action="/add-listing" method="post">
                 <label for="price">Price</label>
@@ -58,8 +57,7 @@
                 <label for="size">Size</label>
                 <input type="text" id="size" name="size" placeholder="Enter size">
 
-                <label for="color">Color</label>
-                <input type="text" id="color" name="color" placeholder="Enter color">
+
 
                 <label for="condition">Condition</label>
                 <input type="text" id="condition" name="condition" placeholder="Enter condition">
