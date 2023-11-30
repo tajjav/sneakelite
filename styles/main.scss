@@ -26,7 +26,7 @@ button:focus {
 }
 
 
-.container {   
+.container {
   max-width: 1200px;
   margin: auto;
 
@@ -63,7 +63,7 @@ h1, h2{
 // }
 
 #filterForm {
-  margin-bottom: 2em;
+  margin-bottom: 5em;
 }
 
 .btn{
@@ -74,4 +74,8 @@ margin-left: 1em;
 border-color: black;
 outline-style: solid;
 padding: 3.5px 3.5px 3.5px 3.5px;
+}
+
+.btn:hover{
+  color: green;
 }
