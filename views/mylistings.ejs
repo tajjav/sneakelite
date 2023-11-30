@@ -25,7 +25,7 @@
   <link rel="stylesheet" href="/styles/products.css" />
   <link rel="stylesheet" href="/styles/nav.css" />
   <link rel="stylesheet" href="/styles/itemdes.css" />
-  <link rel="stylesheet" href="/styles/mylisting.scss" />
+  <link rel="stylesheet" href="/styles/mylisting.css" />
   <script defer src="/scripts/wishlist.js"></script>
 
   <title>SneakElite - My Listings Page</title>
@@ -39,12 +39,15 @@
     <a href="/my-listings" class="card-link"></a>
 
     <main>
-      
+      <div id="alert-message" >
+        <%= alertMessage %>
+      </div>
           
         
       
 
       <h2>My Listings</h2>
+      
 
 
       <div class="add-item-btn-container">
