@@ -74,10 +74,11 @@
               </button>
             </form>
             
-
-            <button class="mark-sold-btn">
-              Mark Sold
-            </button>
+            <form action="/api/listings/<%= items[0].id %>/sold" method="post">
+              <button type="submit" class="mark-sold-btn">
+                Mark Sold
+              </button>
+            </form>
           </div>
 
         </div>

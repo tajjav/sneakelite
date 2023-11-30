@@ -12,7 +12,7 @@ const listingQueries02 = require('../db/queries/1_queries_for_listings/02_list_a
 const listingQueries03= require('../db/queries/1_queries_for_listings/03_list_one_shoe');
 const listingQueries04 = require('../db/queries/1_queries_for_listings/04_update_single_shoe_listing');
 const listingQueries05 = require('../db/queries/1_queries_for_listings/05_delete_shoe_listing');
-
+const {markAsSold} = require('../db/queries/1_queries_for_listings/06_mark_as_sold');
 
 // Create listing    (/api/listings)
 router.post('/', (req, res) => {
@@ -92,10 +92,9 @@ router.post('/:id/delete', (req, res) => {
   const { id } = req.params;
   listingQueries05.deleteListItem(id)
     .then(() => {
-      res.send("Listing is deleted successfully");
-      // setTimeout(() => {
-      //   res.redirect("/my-listings");
-      // },2000);                                               // inquire the issue? [Tauqeer]
+      setTimeout(() => {
+        res.redirect("/my-listings?alertMessage=Listing deleted successfully");
+      },500 );                                               
   })
     .catch(err => {
       res
@@ -103,6 +102,16 @@ router.post('/:id/delete', (req, res) => {
         .json({ error: err.message });
     });
 });
+
+// Mark As Sold     (/api/listings/:id/sold)
+router.post('/:id/sold', (req, res) => {
+  const user_id = req.session.user_id;
+  const { id } = req.params;
+  markAsSold(id, user_id)
+    .then(() => {
+      res.redirect("/my-listings");
+    })
+})
 
 
 module.exports = router;
