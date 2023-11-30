@@ -55,9 +55,9 @@
         
           
 
-        <% for (let i=0; i < 5; i++) { %>
+        <% for (let item of items) { %>
           <div class="product-card">
-            <%- include('partials/_mylistingscard') %>
+            <%- include('partials/_mylistingscard', {item}) %>
 
           </div>
 

@@ -38,46 +38,45 @@
 
   <%- include('partials/_header') %>
     <main>
-      <h1> Nike Air Max Plus</h1>
+      <h1> <%= items[0].title %> </h1>
       <div class="item-body">
         <div class="card-img">
-          <img src="images/nikeblackshoe.png" alt="Nike Black Shoes" class="card-img">
+          <img src="<%= items[0].cover_url %>" alt="Nike Black Shoes" class="card-img">
         </div>
 
         <div class="item-card">
           <div class="item-price">
-            <h3>Price: $320.50</h3>
+            <h3>Price: $<%= items[0].price %></h3>
           </div>
           <div class="description">
             <h4> Description </h4>
           </div>
-          <p class="card-text">The Nike Air Max Plus III combines ultra-comfortable Tuned Air Technologywith an
-            energetic
-            silhouette made famous by its predecessors. The III updates the look with TPU details fused to the upper
-            while
-            paying homage to the iconic colour fade.</p>
+          <p class="card-text"><%= items[0].description %></p>
           <ul class="item-type">
             <li>
-              <span> Brand:</span> Nike
+              <span> Brand:</span> <%= items[0].brand %>
             </li>
             <li>
-              <span>Size:</span> 9
+              <span>Size:</span> <%= items[0].size %>
             </li>
             <li>
               <span>Color:</span> Black
             </li>
             <li>
-              <span>Condition:</span> Like New
+              <span>Condition:</span> <%= items[0].condition %>
             </li>
           </ul>
 
-          <a href="/remove-listing" class="card-link"></a>
+          <!-- <a href="/remove-listing" class="card-link"></a> [why are we using it? [Tauqeer]]-->
 
 
           <div class="item-footer">
-            <button class="remove-item-btn">
-              Remove Item
-            </button>
+            <form action="/api/listings/<%= items[0].id %>/delete" method="post" >
+              <button type="submit" class="remove-item-btn">
+                Remove Item
+              </button>
+            </form>
+            
 
             <button class="mark-sold-btn">
               Mark Sold
