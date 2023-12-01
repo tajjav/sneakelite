@@ -1,53 +1,77 @@
-.sender .message {
-    text-align: left;
-    margin-right: auto;
-    margin-left: 10%;
-    background-color: #DCF8C6; 
-    border-bottom-right-radius: 0; 
+.body {
+  background-color: aqua;
+
+}
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  padding: 20px;
+
+  ul {
+    width: 100%;
+    list-style: none;
+    padding: 0;
   }
-  
-  .receiver .message {
-    text-align: right;
-    margin-left: auto;
-    margin-right: 10%;
-    background-color: #E5E5EA; 
-    border-bottom-left-radius: 0; 
-  }
-  
-  .message {
-    display: flex;
-    flex-direction: column;
+
+  .message-sent,
+  .message-received {
     margin: 10px 0;
     padding: 10px 15px;
     border-radius: 18px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    font-size: 1.2em;
     max-width: 60%;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1); 
-    color: #333; 
-    font-size: 0.95em; 
-  }
-  
-  .message p {
-    margin: 0;
-    padding: 0;
-    word-wrap: break-word; 
-  }
-  
-  
-  .message-input textarea {
-    padding: 9px; 
-    font-size: 1em; 
-    width: 70%; 
-    resize: none; 
-  }
-  
-  .message-input button {
-    padding: 10px 15px; 
-    font-size: 1em; 
-  }
-  .message-sent{
-    color: red
+    word-wrap: break-word;
   }
 
-  .message-received{
-    color: blue
+  .message-sent {
+    align-self: flex-end;
+    background-color: #ffcccc;
+    color: red;
+    border-bottom-right-radius: 0;
   }
+
+  .message-received {
+    align-self: flex-start;
+    background-color: #cce5ff;
+    color: blue;
+    border-bottom-left-radius: 0;
+  }
+}
+
+.message-input {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 10px;
+
+  textarea {
+    flex-grow: 1;
+    margin-right: 10px;
+    padding: 9px;
+    font-size: 1em;
+    resize: none;
+  }
+
+  button {
+    padding: 10px 15px;
+    font-size: 1em;
+  }
+}
+
+.profile-image {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  border-radius: 50%;
+}
+.timestamp {
+  font-size: 0.8em;
+  color: grey;
+  margin-left: 10px;
+}
