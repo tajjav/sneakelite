@@ -217,14 +217,21 @@ app.post('/api/filtered', (req, res) => {
   const filteredResults = retrieveFilteredListings({min_price: minPrice, max_price: maxPrice});
   console.log(filteredResults);
 
-  db.query("SELECT * FROM users WHERE id = $1", [user_id])
-      .then((data) => {
-        filteredResults.then(shoe_listings => {
-                          console.log(shoe_listings);
-                          const userName = data.rows[0].name;
-                          res.render('partials/_filters', {userName, shoe_listings});
+  if (!user_id) {
+    filteredResults.then(shoe_listings => {
+                      console.log(shoe_listings);
+                      res.render('partials/_filters', {userName:null, shoe_listings});
+    });
+  } else {
+    db.query("SELECT * FROM users WHERE id = $1", [user_id])
+        .then((data) => {
+          filteredResults.then(shoe_listings => {
+                            console.log(shoe_listings);
+                            const userName = data.rows[0].name;
+                            res.render('partials/_filters', {userName, shoe_listings});
+          })
         })
-      })
+    }
 });
 
 
