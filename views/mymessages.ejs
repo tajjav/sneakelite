@@ -25,56 +25,42 @@
   <link rel="stylesheet" href="/styles/products.css" />
   <link rel="stylesheet" href="/styles/nav.css" />
   <link rel="stylesheet" href="/styles/itemdes.css" />
-  <link rel="stylesheet" href="/styles/mylisting.css" />
-  
-  <!-- App JS -->
-  <script defer src="/scripts/wishlist.js"></script>
-  <script defer src="/scripts/marksold.js"></script>
+  <link rel="stylesheet" href="/styles/removeitem.css" />
+  <link rel="stylesheet" href="/styles/messages.css" />
 
-  <title>SneakElite - My Listings Page</title>
-
+  <title>SneakElite - Messaging System Page</title>
 
 </head>
 
 <body>
-
   <%- include('partials/_header') %>
-    <a href="/my-listings" class="card-link"></a>
 
-    <main>
-      <div id="alert-message" >
-        <%= alertMessage %>
-      </div>
-          
-        
+    <a href="/mymessages" class="card-link"></a>
+
+    <div class="chat-container">
+
+      <div>
+        <ul>
+    <% messages.forEach(message => { %>
+      <li class="<%= (message.sender_id === user_id) ?'message-sent':'message-received' %>">
       
-
-      <h2>My Listings</h2>
-      
-
-
-      <div class="add-item-btn-container">
-        <a href="/addlisting" class="add-item-btn">Add Item</a>
-      </div>
-
-      <div class="products">
-        
-          
-
-        <div class="products">
-          <% for (let item of items) { %>
-            <div class="<%= item.is_sold ? 'product-card greyed-out' : 'product-card' %>">
-              <%- include('partials/_mylistingscard', {item}) %>
-            </div>
-          <% }; %>
-        </div>
-        
+        <p> <%= message.content %></p>
+      </li>
     
-    </main>
+    <% }) %>
+  </ul>
+
+    </div>
 
 
-  
 
+      <!-- Message input form -->
+      <div class="message-input">
+        <textarea id="message-input" placeholder="Type your message..."></textarea>
+        <button onclick="sendMessage()">Send</button>
+      </div>
+
+    </div>
 </body>
 
 </html>
