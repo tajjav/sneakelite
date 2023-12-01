@@ -42,9 +42,11 @@
       <div>
         <ul>
     <% messages.forEach(message => { %>
-      <li>
+      <li class="<%= (message.sender_id === user_id) ?'message-sent':'message-received' %>">
+      
         <p> <%= message.content %></p>
       </li>
+    
     <% }) %>
   </ul>
 
