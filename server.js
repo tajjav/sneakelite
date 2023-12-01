@@ -289,12 +289,18 @@ app.get('/mymessages', (req, res) => {
   let userName = req.session.name;
   const user_id = req.session.user_id;
   if (!user_id) return res.send("Unauthorized, log in first");
+  console.log('req', req)
   Promise.all([
-    db.query(`SELECT * from messages WHERE receiver_id = $1`, [user_id]),
-    db.query(`SELECT * from messages WHERE sender_id = $1`, [user_id])
+    db.query(`SELECT * from messages WHERE sender_id = $1 order by timestamp desc;`, [user_id]),
+    db.query(`SELECT * from messages WHERE receiver_id = $1 order by timestamp desc;`, [user_id]),
+
   ])
-    .then(([received,sent]) => {
-      const allmessages =[...received.rows, ...sent.rows]
+    // .then(([received,sent]) => {
+    //   const allmessages =[...received.rows, ...sent.rows]
+     .then(([sent,received]) => {
+      console.log('sent',sent.rows);
+      console.log('received',received.rows)
+     const allmessages =[...sent.rows, ...received.rows]
       res.render("mymessages", { messages: allmessages, userName,user_id });
       
       // res.json(data.rows)

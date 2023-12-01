@@ -40,28 +40,6 @@ const db = require('../../connection');
 //                         `${single_shoe_listing.thumbnail_url}`,
 //                         `${single_shoe_listing.cover_url}`,
 //                         `${single_shoe_listing.is_deleted}`
-//   ];console.log (
-//     `${single_shoe_listing.title}`,
-//     `${single_shoe_listing.description}`,
-//     `${single_shoe_listing.brand}`,
-//     `${single_shoe_listing.is_featured}`,
-//     `${single_shoe_listing.size}`,
-//     `${single_shoe_listing.price}`,
-//     `${single_shoe_listing.condition}`,
-//     `${single_shoe_listing.is_sold}`,
-//     `${single_shoe_listing.user_id}`,
-//     `${single_shoe_listing.city}`,
-//     `${single_shoe_listing.postal_code}`,
-//     `${single_shoe_listing.thumbnail_url}`,
-//     `${single_shoe_listing.cover_url}`,
-//     `${single_shoe_listing.is_deleted}`
-//   )
-//   return db.query(queryString,queryParams)
-//             .then(data => {
-//               return data.rows[0];
-//             }
-//   );
-// };
 
 const addToList = (single_shoe_listing) => {
   const queryString = `
