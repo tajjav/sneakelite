@@ -289,9 +289,14 @@ app.get('/mymessages', (req, res) => {
   let userName = req.session.name;
   const user_id = req.session.user_id;
   if (!user_id) return res.send("Unauthorized, log in first");
-  db.query(`SELECT * from messages WHERE receiver_id = $1`, [user_id])
-    .then((data) => {
-      res.render("mymessages", { messages: data.rows, userName });
+  Promise.all([
+    db.query(`SELECT * from messages WHERE receiver_id = $1`, [user_id]),
+    db.query(`SELECT * from messages WHERE sender_id = $1`, [user_id])
+  ])
+    .then(([received,sent]) => {
+      const allmessages =[...received.rows, ...sent.rows]
+      res.render("mymessages", { messages: allmessages, userName,user_id });
+      
       // res.json(data.rows)
     })
     .catch((err) => {
