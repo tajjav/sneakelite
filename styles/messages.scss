@@ -1,7 +1,7 @@
 .body {
-  background-color: aqua;
-
+  background-color: rgb(242, 243, 243);
 }
+
 .chat-container {
   display: flex;
   flex-direction: column;
@@ -14,7 +14,8 @@
     list-style: none;
     padding: 0;
   }
-
+}
+ 
   .message-sent,
   .message-received {
     margin: 10px 0;
@@ -25,20 +26,22 @@
     max-width: 60%;
     word-wrap: break-word;
   }
-
+  
+  
   .message-sent {
-    align-self: flex-end;
-    background-color: #ffcccc;
-    color: red;
-    border-bottom-right-radius: 0;
+    align-self: flex-start; 
+    background-color: #ffcccc; 
+    color: red; 
+    border-bottom-left-radius: 0; 
   }
-
+  
+ 
   .message-received {
-    align-self: flex-start;
-    background-color: #cce5ff;
-    color: blue;
-    border-bottom-left-radius: 0;
-  }
+    align-self: flex-end; 
+    background-color: #cce5ff; 
+    color: blue; 
+    border-bottom-right-radius: 0; 
+    text-align: right;
 }
 
 .message-input {
@@ -70,19 +73,21 @@
   left: 10px;
   border-radius: 50%;
 }
+
 .timestamp {
   font-size: 0.8em;
   color: grey;
   margin-left: 10px;
 }
+
 .card-img {
   width: 100%;
   height: auto;
   border-radius: 10px;
-  
 }
+
 .message-img {
-  width: 100%; 
+  width: 100%;
   height: auto;
   border-radius: 10px;
 }
