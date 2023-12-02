@@ -7,6 +7,7 @@ const express = require('express');
 const morgan = require('morgan');
 const cookieSession = require('cookie-session');
 
+
 const PORT = process.env.PORT || 8080;
 const app = express();
 app.use(cookieSession({
@@ -49,9 +50,10 @@ const listingsApiRoutes = require('./routes/listings-api');
 const widgetApiRoutes = require('./routes/widgets-api');
 const favouritesApiRoutes = require('./routes/favourites-api');
 const loginRoutes = require('./routes/login');
-const messagesRoutes = require('./routes/messages');
+// const messagesRoutes = require('./routes/messages.js');
 const filteringRoutes = require('./routes/search');
 const soldRoutes = require('./routes/sold');
+const { fstat } = require('fs');
 
 
 
@@ -297,11 +299,12 @@ app.get('/mymessages', (req, res) => {
   const user_id = req.session.user_id;
   if (!user_id) return res.send("Unauthorized, log in first");
   Promise.all([
-    db.query(`SELECT * from messages WHERE receiver_id = $1`, [user_id]),
-    db.query(`SELECT * from messages WHERE sender_id = $1`, [user_id])
+    db.query(`SELECT * from messages WHERE sender_id = $1 ORDER BY timestamp;` , [user_id]),
+    db.query(`SELECT * from messages WHERE receiver_id = $1 ORDER BY timestamp; `, [user_id])
+    
   ])
-    .then(([received,sent]) => {
-      const allmessages =[...received.rows, ...sent.rows]
+    .then(([sent, received]) => {
+      const allmessages =[...sent.rows,...received.rows]
       res.render("mymessages", { messages: allmessages, userName,user_id });
       
       // res.json(data.rows)

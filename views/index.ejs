@@ -58,7 +58,7 @@
       <% for (let item of items) { %>
         <% if (item.is_featured) { %>
           <div class="product-card">
-            <%- include('partials/_card', {item}) %>
+            <%- include('partials/_card', {item} ) %>
 
 
           </div>
@@ -80,6 +80,7 @@
 
     <% } %>
       </div>
+     
   </main>
 
   <a href="/home-page" class="card-link"></a>

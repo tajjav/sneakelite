@@ -1,4 +1,0 @@
-
-
-// Client facing scripts here
-
