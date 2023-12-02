@@ -28,6 +28,9 @@
   <link rel="stylesheet" href="/styles/removeitem.css" />
   <link rel="stylesheet" href="/styles/messages.css" />
 
+  <!-- App JS -->
+  <script defer src="/scripts/timestamp.js"></script>
+  
   <title>SneakElite - Messaging System Page</title>
 
 </head>
@@ -38,17 +41,18 @@
     <a href="/mymessages" class="card-link"></a>
 
     <div class="chat-container">
+      <img src="/" alt="Profile Image" class="profile-image message-img">
 
-      <div>
-        <ul>
-    <% messages.forEach(message => { %>
-      <li class="<%= (message.sender_id === user_id) ?'message-sent':'message-received' %>">
+  
+      <ul>
+        <% messages.forEach(message => { %>
+          <li class="<%= (message.sender_id === user_id ) ? 'message-sent' : 'message-received' %>">
+            <p> <%= message.content %> </p>
+          </li>
+        <% }) %>
+      </ul>
+
       
-        <p> <%= message.content %></p>
-      </li>
-    
-    <% }) %>
-  </ul>
 
     </div>
 
@@ -59,8 +63,11 @@
         <textarea id="message-input" placeholder="Type your message..."></textarea>
         <button onclick="sendMessage()">Send</button>
       </div>
-
     </div>
+
+   
+      
+    
 </body>
 
 </html>
