@@ -7,6 +7,7 @@ const express = require('express');
 const morgan = require('morgan');
 const cookieSession = require('cookie-session');
 
+
 const PORT = process.env.PORT || 8080;
 const app = express();
 app.use(cookieSession({
@@ -49,9 +50,10 @@ const listingsApiRoutes = require('./routes/listings-api');
 const widgetApiRoutes = require('./routes/widgets-api');
 const favouritesApiRoutes = require('./routes/favourites-api');
 const loginRoutes = require('./routes/login');
-const messagesRoutes = require('./routes/messages');
+// const messagesRoutes = require('./routes/messages.js');
 const filteringRoutes = require('./routes/search');
 const soldRoutes = require('./routes/sold');
+const { fstat } = require('fs');
 
 
 
@@ -296,18 +298,13 @@ app.get('/mymessages', (req, res) => {
   let userName = req.session.name;
   const user_id = req.session.user_id;
   if (!user_id) return res.send("Unauthorized, log in first");
-  console.log('req', req)
   Promise.all([
-    db.query(`SELECT * from messages WHERE sender_id = $1 order by timestamp desc;`, [user_id]),
-    db.query(`SELECT * from messages WHERE receiver_id = $1 order by timestamp desc;`, [user_id]),
-
+    db.query(`SELECT * from messages WHERE sender_id = $1 ORDER BY timestamp;` , [user_id]),
+    db.query(`SELECT * from messages WHERE receiver_id = $1 ORDER BY timestamp; `, [user_id])
+    
   ])
-    // .then(([received,sent]) => {
-    //   const allmessages =[...received.rows, ...sent.rows]
-     .then(([sent,received]) => {
-      console.log('sent',sent.rows);
-      console.log('received',received.rows)
-     const allmessages =[...sent.rows, ...received.rows]
+    .then(([sent, received]) => {
+      const allmessages =[...sent.rows,...received.rows]
       res.render("mymessages", { messages: allmessages, userName,user_id });
       
       // res.json(data.rows)

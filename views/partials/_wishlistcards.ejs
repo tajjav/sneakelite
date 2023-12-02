@@ -13,7 +13,7 @@
   <div class="card-footer">
     <div class="card-actions">
       <a href="/item-details/<%= item.id %>" class="card-link">More details</a>
-      <a href="#" class="card-link">Contact seller</a>
+      <a href="mailto:<%= item.user_id %>@hotmail.com?subject= Inquiry about Product: <%= item.id %>&body = Hello! is this product available?" class="card-link">Contact seller</a>
     </div>
     <div class="card-price">
       Price: $<%= item.price %>
